@@ -37,7 +37,7 @@
             <nav id="navMenu" role="navigation" aria-label="Primary navigation">
                 <ul>
                     <li><a href="#about">About Us</a></li>
-                    <li><a href="#mission">Mission</a></li>
+                    <!-- <li><a href="#mission">Mission</a></li> -->
                     <li><a href="#services">Services</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="#testimonials">Testimonials</a></li>
@@ -55,7 +55,7 @@
             
             <div class="btn-group">
                 <a href="#contact" class="btn btn-primary">Request a Consultation</a>
-                <a href="IngwanElihle_Company_Profile.pdf" class="btn btn-secondary" download>
+                <a href="assets/Company-Profile.pdf" class="btn btn-secondary" download>
                     <i class="fas fa-download"></i> Download Company Profile
                 </a>
             </div>
@@ -415,7 +415,7 @@
                             <div class="contact-icon">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
-                            <div class="contact-text">
+                            <!-- <div class="contact-text">
                                 <h4>Office Address</h4>
                                 <div class="contact-address">
                                     P.O Box 1234<br>
@@ -423,7 +423,7 @@
                                     Johannesburg<br>
                                     Gauteng, 2000<br>
                                     South Africa
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -447,15 +447,15 @@
                 
                 <div class="contact-form-container">
                     <h3>Send Us a Message</h3>
-                    <form id="contactForm" class="contact-form">
+                    <form id="contactForm" class="contact-form" action="https://formsubmit.co/nthabiekamoloi92@gmail.com" method="POST">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="name">Full Name *</label>
-                                <input type="text" id="name" class="form-control" placeholder="Your Name" required>
+                                <input type="text" id="name" class="form-control" name = "name" placeholder="Your Name" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email Address *</label>
-                                <input type="email" id="email" class="form-control" placeholder="your.email@example.com" required>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="your.email@example.com" required>
                             </div>
                         </div>
                         
@@ -471,7 +471,7 @@
                         
                         <div class="form-group">
                             <label for="message">Message *</label>
-                            <textarea id="message" class="form-control" rows="5" placeholder="Tell us about your project or inquiry..." required></textarea>
+                            <textarea id="message" name="message" class="form-control" rows="5" placeholder="Tell us about your project or inquiry..." required></textarea>
                         </div>
                         
                         <div class="form-group">
@@ -484,10 +484,17 @@
                                 <option value="other">Other</option>
                             </select>
                         </div>
+
                         
                         <button type="submit" class="btn btn-primary submit-btn">
                             <i class="fas fa-paper-plane"></i> Send Message
                         </button>
+                    </form> 
+                    
+                    <form action="https://formsubmit.co/nthabiekamoloi92@gmail.com" method="POST">
+                            <input type="email" name="email" placeholder="Email" required>
+                            <textarea placeholder="message" name="message" required></textarea>
+                            <button type="submit">Send</button>
                     </form>
                 </div>
             </div>
