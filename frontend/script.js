@@ -400,4 +400,374 @@ function showError(fieldName, message) {
     
     const field = document.querySelector(`[name="${fieldName}"]`);
     if (field) {
-      
+        field.classList.add('error');
+    }
+}
+
+function clearFieldError(e) {
+    const field = e.target;
+    const fieldName = field.name;
+    
+    const errorElement = document.getElementById(`${fieldName}Error`);
+    if (errorElement) {
+        errorElement.textContent = '';
+    }
+    
+    field.classList.remove('error');
+}
+
+function clearAllErrors() {
+    const errorElements = document.querySelectorAll('.form-error');
+    errorElements.forEach(el => el.textContent = '');
+    
+    const fields = document.querySelectorAll('.form-control');
+    fields.forEach(field => field.classList.remove('error'));
+}
+
+// Initialize form validations
+function initializeFormValidations() {
+    const contactForm = document.getElementById('contactForm');
+    if (!contactForm) return;
+    
+    // Add input event listeners for real-time feedback
+    const textInputs = contactForm.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
+    textInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.classList.add('filled');
+            } else {
+                this.classList.remove('filled');
+            }
+        });
+    });
+}
+
+// Form Reset Functions
+function resetForm() {
+    const form = document.getElementById('contactForm');
+    const formFields = document.getElementById('formFields');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // Reset form
+    if (form) form.reset();
+    
+    // Clear errors
+    clearAllErrors();
+    
+    // Show form fields
+    if (formFields) {
+        formFields.style.display = 'block';
+        formFields.style.opacity = '1';
+    }
+    
+    // Hide messages
+    if (successMessage) successMessage.style.display = 'none';
+    if (errorMessage) errorMessage.style.display = 'none';
+    
+    // Reset submit button
+    if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+    }
+}
+
+function retrySubmit() {
+    const errorMessage = document.getElementById('errorMessage');
+    if (errorMessage) errorMessage.style.display = 'none';
+    
+    // You could also auto-submit here if needed
+    // document.getElementById('contactForm').dispatchEvent(new Event('submit'));
+}
+
+// Legacy form message functions (for compatibility)
+function showFormMessage(message, type) {
+    // Remove any existing message
+    clearFormMessage();
+    
+    // Create message element
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `form-message form-message-${type}`;
+    messageDiv.textContent = message;
+    
+    // Add close button
+    const closeButton = document.createElement('button');
+    closeButton.className = 'form-message-close';
+    closeButton.innerHTML = '&times;';
+    closeButton.setAttribute('aria-label', 'Close message');
+    closeButton.addEventListener('click', clearFormMessage);
+    
+    messageDiv.appendChild(closeButton);
+    
+    // Insert message before form
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.parentNode.insertBefore(messageDiv, contactForm);
+    }
+}
+
+function clearFormMessage() {
+    const existingMessage = document.querySelector('.form-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+}
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Smooth Scrolling
+function initializeSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const headerHeight = document.querySelector('header').offsetHeight || 80;
+                const targetPosition = targetElement.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
+
+// Header Scroll Effect
+function initializeHeaderScroll() {
+    const header = document.querySelector('header');
+    if (!header) return;
+    
+    let lastScrollTop = 0;
+    
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Add/remove background on scroll
+        if (scrollTop > 50) {
+            header.style.backgroundColor = 'rgba(31, 42, 55, 0.95)';
+            header.style.backdropFilter = 'blur(10px)';
+        } else {
+            header.style.backgroundColor = 'var(--dark-color)';
+            header.style.backdropFilter = 'none';
+        }
+        
+        // Hide/show header on scroll
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Scrolling down
+            header.style.transform = 'translateY(-100%)';
+        } else {
+            // Scrolling up
+            header.style.transform = 'translateY(0)';
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+}
+
+// Add CSS for form states
+function addFormStyles() {
+    const formStyles = document.createElement('style');
+    formStyles.textContent = `
+        /* Form States */
+        .form-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            border-radius: var(--border-radius);
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--gray-lighter);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .success-message,
+        .error-message {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .success-message i {
+            color: #28a745;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .error-message i {
+            color: #dc3545;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .success-message h3,
+        .error-message h3 {
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+        
+        .success-message p,
+        .error-message p {
+            color: var(--gray-color);
+            margin-bottom: 10px;
+        }
+        
+        /* Form Errors */
+        .form-error {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            min-height: 20px;
+        }
+        
+        .form-control.error {
+            border-color: #dc3545;
+            background-color: #fff5f5;
+        }
+        
+        /* Form Footer */
+        .form-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-lighter);
+        }
+        
+        .form-agreement {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .form-agreement input[type="checkbox"] {
+            margin-top: 3px;
+        }
+        
+        .form-agreement label {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            line-height: 1.4;
+        }
+        
+        /* Legacy form messages */
+        .form-message {
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: var(--border-radius-sm);
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .form-message-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            color: #065f46;
+        }
+        
+        .form-message-error {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            color: #7f1d1d;
+        }
+        
+        .form-message-info {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            color: #1e3a8a;
+        }
+        
+        .form-message-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: inherit;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        
+        .form-message-close:hover {
+            opacity: 1;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        /* Responsive Forms */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .form-agreement {
+                font-size: 0.85rem;
+            }
+        }
+    `;
+    
+    document.head.appendChild(formStyles);
+}
+
+// Initialize form styles
+addFormStyles();
+
+// Export functions for HTML onclick attributes (if needed)
+window.toggleMenu = toggleMenu;
+window.nextTestimonial = nextTestimonial;
+window.prevTestimonial = prevTestimonial;
+window.showTestimonial = showTestimonial;
+window.resetForm = resetForm;
+window.retrySubmit = retrySubmit;
+
+// Performance optimization
+window.addEventListener('load', function() {
+    // Remove loading states if any
+    const loadingElements = document.querySelectorAll('[data-loading]');
+    loadingElements.forEach(el => {
+        el.removeAttribute('data-loading');
+    });
+});
+
