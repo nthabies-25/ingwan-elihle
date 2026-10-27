@@ -1,61 +1,67 @@
-# 🌿 Ingwan' Elihle | Company Portfolio Website
+🌿 Ingwan' Elihle — Health & Safety Business Website
+A full-stack website concept for a future occupational health and safety consultancy.
+Project status: In development · Business concept (not yet launched)
 
-A company portfolio website designed to establish a professional digital presence and provide visitors with information about the business.
+About the project
+Ingwan' Elihle began as a business idea while I was exploring a career in occupational health and safety, before joining WeThinkCode_. I used the concept to practise building a business-facing website and a supporting backend.
 
-## 📌 Project Overview
+The project is a portfolio prototype, not a live consultancy or a production-ready service.
+Features implemented in code
+- Responsive website layout with mobile navigation
+- Company, services, project experience, and contact sections
+- Testimonial slider, scrolling effects, and client-side form validation
+- Express API for submitting and managing enquiries
+- PostgreSQL schema for storing enquiries
+- Email confirmation and administrator notification functions using Nodemailer
+- API health-check route, CORS configuration, security headers, and request rate limiting
+Note: Some integrations and admin security controls are still incomplete; the features above have not all been verified end to end.
+Tech stack
+Layer	Technologies
+Frontend	HTML, CSS, JavaScript
+Backend	Node.js, Express
+Database	PostgreSQL (pg)
+Email	Nodemailer
+Security middleware	Helmet, CORS, express-rate-limit
 
-Ingwan' Elihle is a web development project focused on creating an accessible, organised, and user-friendly online presence for a business.
 
-The project separates frontend and backend code, providing a foundation for developing and maintaining the website.
-
-## 🛠️ Project Structure
-
-```text
+Repository structure
 ingwan-elihle/
-├── assets/       # Images and other static resources
-├── backend/      # Backend application files
-└── frontend/     # User interface files
-```
-
-## ✨ Project Goals
-
-- Present company information in a clear and professional way.
-- Create an intuitive experience for website visitors.
-- Organise frontend and backend code for easier maintenance.
-- Apply practical web development and problem-solving skills.
-
-## 💻 Technologies
-
-The repository contains separate frontend and backend components.
-
-*The specific frameworks, languages, and dependencies will be documented here once verified.*
-
-## 🚀 Getting Started
-
-Clone the repository:
-
-```bash
-git clone https://github.com/nthabies-25/ingwan-elihle.git
-cd ingwan-elihle
-```
-
-*Application installation and startup instructions will be added after confirming the project's dependencies.*
-
-## 📸 Screenshots
-
-Screenshots of the completed website will be added here to demonstrate the user interface and design.
-
-## 🔮 Future Improvements
-
-- Improve accessibility and responsive design where needed.
-- Add automated tests.
-- Document deployment and configuration.
-- Refine the user experience based on feedback.
-
-## 👩🏽‍💻 Developer
-
-**Nthabi Moloi**
-
-Software Developer | Backend • Cloud • Data
-
-[GitHub Profile](https://github.com/nthabies-25)
+├── frontend/
+│   ├── index.html
+│   ├── styles.css
+│   ├── script.js
+│   └── images/
+├── backend/
+│   ├── server.js
+│   ├── database.js
+│   ├── database.sql
+│   ├── email.js
+│   ├── controllers/
+│   ├── routes/
+│   └── package.json
+└── assets/
+Running locally
+Prerequisites: Node.js, npm, and PostgreSQL.
+1. Clone the repository:
+   git clone https://github.com/nthabies-25/ingwan-elihle.git
+   cd ingwan-elihle
+2. Install backend dependencies:
+   cd backend
+   npm install
+3. Create a local backend/.env from a placeholder-only .env.example. Configure the PostgreSQL connection and email settings. Never commit actual secrets.
+4. Set up PostgreSQL using backend/database.sql (review and remove the placeholder admin-user insert before use).
+5. Correct the controller's database and email import paths before running the backend. Then start it:
+   npm start
+6. Serve the frontend/ directory with a local development server (for example, on port 5500). The frontend currently expects the API at http://localhost:3001/api.
+The backend provides GET /api/health and enquiry routes under /api/enquiries. Do not expose the administrative enquiry routes publicly until authentication and authorisation are implemented.
+Next steps
+- Fix backend module imports and align the database schema with controller queries
+- Implement authentication and authorisation for admin endpoints
+- Add automated tests for enquiry validation and API responses
+- Add screenshots and document the working local setup
+- Review frontend responsiveness and accessibility
+- Deploy a safe demonstration once integrations have been tested
+Why I built it
+The project connects an entrepreneurial idea with my transition into software development. It gives me a practical way to explore how a website, API, database, and email service fit together to support a business workflow.
+Developer
+Nthabi Moloi · GitHub
