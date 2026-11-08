@@ -14,6 +14,7 @@ CREATE TABLE enquiries (
     message TEXT NOT NULL,
     service_type VARCHAR(50),
     status VARCHAR(20) DEFAULT 'new',
+    admin_notes TEXT,
     ip_address VARCHAR(45),
     user_agent TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -32,6 +33,7 @@ BEGIN
     NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
+
 $$ language 'plpgsql';
 
 -- Create trigger for updated_at
@@ -39,17 +41,3 @@ CREATE TRIGGER update_enquiries_updated_at
     BEFORE UPDATE ON enquiries 
     FOR EACH ROW 
     EXECUTE FUNCTION update_updated_at_column();
-
--- Admin users table (optional for admin dashboard)
-CREATE TABLE admin_users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Insert default admin (password: Admin123! - change this!)
-INSERT INTO admin_users (username, password_hash, email) 
-VALUES ('admin', '$2b$10$YourHashedPasswordHere', 'admin@ingwanelihle.co.za');

@@ -1,5 +1,9 @@
-const pool = require('../config/database');
-const nodemailer = require('../config/email');
+const pool = require('../database');
+
+const {
+    sendConfirmationEmail,
+    sendAdminNotification
+} = require('../email');
 
 // Submit new enquiry
 const submitEnquiry = async (req, res) => {
@@ -38,7 +42,7 @@ const submitEnquiry = async (req, res) => {
 
         // Send confirmation email to client
         try {
-            await nodemailer.sendConfirmationEmail(email, name, subject);
+            await sendConfirmationEmail(email, name, subject);
         } catch (emailError) {
             console.error('Failed to send confirmation email:', emailError);
             // Don't fail the request if email fails
@@ -46,7 +50,7 @@ const submitEnquiry = async (req, res) => {
 
         // Send notification to admin
         try {
-            await nodemailer.sendAdminNotification({
+            await sendAdminNotification({
                 id: enquiry.id,
                 name,
                 email,
